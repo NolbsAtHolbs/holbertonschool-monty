@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 			read = getline(&line, &length, file);
 			continue;
 		}
-		get_opcode(opcode, &stack, line_number);
+		get_op(opcode, &stack, line_number);
 		read = getline(&line, &length, file);
 		line_number++;
 	}

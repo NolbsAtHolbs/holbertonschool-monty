@@ -8,7 +8,7 @@
 * @line_number: number of line to read
 * Returns: 0 on success, -1 on failure
 */
-int get_opcode(char *opcode, stack_t **stack, unsigned int line_number)
+void get_opcode(char *opcode, stack_t **stack, unsigned int line_number)
 {
 	if (opcode == NULL)
 	{
