@@ -12,12 +12,12 @@
 */
 int main(int argc, char *argv[])
 {
-	FILE *file;
-	char *line = NULL;
-	size_t len = 0;
+	char *line = NULL, *opcode;
+	size_t length = 0;
 	ssize_t read;
 	unsigned int line_number = 1;
 	stack_t *stack = NULL;
+	FILE *file = NULL;
 
 	if (argc != 2)
 	{
@@ -26,14 +26,25 @@ int main(int argc, char *argv[])
 	}
 	file = fopen(argv[1], "r");
 
-	if (file == NULL)
+	if (!file)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while ((read = getline(&line, &len, file)) != -1)
+	read = getline(&line, &length, file);
+
+	while (read != -1)
 	{
-		parse_instructions(&stack, line, line_number);
+		opcode = strtok(line, " \t\n");
+
+		if (opcode == NULL)
+		{
+			line_number += line_number;
+			read = getline(&line, &length, file);
+			continue;
+		}
+		get_opcode(opcode, &stack, line_number);
+		read = getline(&line, &length, file);
 		line_number++;
 	}
 	free(line);
@@ -41,6 +52,7 @@ int main(int argc, char *argv[])
 	fclose(file);
 	return (EXIT_SUCCESS);
 }
+
 /**
 * free_stack - frees stack memory
 * @stack: pointer to stack
