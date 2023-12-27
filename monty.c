@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
 		parse_instructions(&stack, line, line_number);
 		line_number++;
 	}
-	free_memory(line, stack);
+	free(line)
+	free_memory(stack);
 	fclose(file);
 	return (EXIT_SUCCESS);
 }
